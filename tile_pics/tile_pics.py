@@ -2,12 +2,13 @@ from PIL import Image
 import math
 import sys
 
+VERBOSE = False
 
 # handle arguments
 pics = sys.argv[1:]
 
 # create output image
-oi_size = (160,160)             
+oi_size = (1920,1080)             
 sec_size = 32                   # The created image will be divided into 32x32
 sec_count = (int(oi_size[0]/sec_size), int(oi_size[1]/sec_size)) 
 oi = Image.new("RGB",oi_size)
@@ -21,8 +22,6 @@ for p in pics:
     i_size = img.size
     is_w = int(math.ceil(i_size[0]/sec_size))       # spots needed for width
     is_h = int(math.ceil(i_size[1]/sec_size))       # spots needed for height
-    
-    print("{} {}".format(is_w,is_h))
 
     location = (-1,-1)  # (row, column) of the image being placed
     # At each individual spot, check if there is not  enough space open to display
@@ -46,15 +45,12 @@ for p in pics:
                     break;
                 for w in range(is_w):
                     if not spots[r+h][c+w]:
-                        print("spot[{}][{}] is taken".format(r+h,c+w))
                         clear = False
                         break
                 #endfor
             #endfor
 
             # we can fill up the current box
-            print("About to see if I can write location.")
-            print(clear)
             if clear:
                 location = (r, c)
                 display = True
@@ -63,7 +59,8 @@ for p in pics:
         if display:
             break
     #endfor
-    print("location {}".format(location))
+    if VERBOSE:
+        print("Pasting image at location {}".format(location))
 
     # update the spots grid. 
     if location[0] != -1 and location[1] != -1:
@@ -76,10 +73,6 @@ for p in pics:
         oi.paste(img, (location[1] * sec_size, location[0] * sec_size))
 
     # display status of the grid
-    for r, row in enumerate(spots):
-        print(row)
-
-    print()
 
 # determine where to place the picture on the image
 
