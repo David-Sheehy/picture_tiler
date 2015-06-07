@@ -1,0 +1,6 @@
+Check that the arguments given are the correct type.
+    (size should be given in ints)
+    (output_file should be a string)
+
+?maybe, add multiple ways to fill the image
+    (decide on what those ways should be)
