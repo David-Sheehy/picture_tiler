@@ -8,14 +8,15 @@ import argparse
 # verbose flag
 VERBOSE = False
 
-# create output image
-oi_size = (1920,1080)             
+OUTPUT_PATH = "output.png"
+OUTPUT_SIZE = (1920,1080)             
 sec_size = 32                   # The created image will be divided into 32x32
 
 def main(pics) :
     
-    sec_count = (int(oi_size[0]/sec_size), int(oi_size[1]/sec_size)) 
-    oi = Image.new("RGB",oi_size)
+    # calculate the sectors in the output image and create it.
+    sec_count = (int(OUTPUT_SIZE[0]/sec_size), int(OUTPUT_SIZE[1]/sec_size)) 
+    oi = Image.new("RGB",OUTPUT_SIZE)
 
     # spots is a matrix holding the availability of each sector of the output image
     spots =  [[True for c in range(sec_count[0])] for r in range(sec_count[1])]
@@ -81,8 +82,30 @@ def main(pics) :
     # determine where to place the picture on the image
 
 
-    oi.save("output.png")
+    oi.save(OUTPUT_PATH)
     # save the image
 
 if __name__ == '__main__':
-    main(sys.argv[1:])
+    # parse the arguments
+    parser = argparse.ArgumentParser(
+                            description="Create a collage from pictures. "
+                        )
+    # output file
+    parser.add_argument("-o","--output",
+                        nargs=1,
+                        help="Change the path of the output file."
+                       )
+    # output size
+    parser.add_argument("-s", "--size",
+                        nargs=2,
+                        help="Change the dimensions of the output file."
+                       )
+    # picture arguments
+    parser.add_argument("pic_path", nargs=argparse.REMAINDER)
+    args = parser.parse_args()
+    if(args.output):
+        OUTPUT_PATH = args.output[0]
+    if(args.size):
+        OUTPUT_SIZE = (args.size[0],args.size[1])
+    if(args.pic_path):
+        main(args.pic_path)

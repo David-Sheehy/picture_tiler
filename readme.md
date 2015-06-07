@@ -20,6 +20,16 @@ pillow (python imaging library) >= 2.8.1
 work, I did not use any advanced features beyond  Image.new, Image.paste, and
 Image.save)
 
+#Options
+
+1. -s=w h --size=w h 
+    Adjusts the size of the output file. Default is 1920x1800
+
+2.  -o=filename --ouput=filename
+    Changes the output file path.
+
+3. -v --verbose
+    Makes the program output verbose. 
 
 #Usage
 
