@@ -2,8 +2,6 @@ from PIL import Image
 import math
 import argparse
 
-
-
 # verbose flag
 VERBOSE = False
 
@@ -17,19 +15,19 @@ def main(pics) :
     sec_count = (int(OUTPUT_SIZE[0]/sec_size), int(OUTPUT_SIZE[1]/sec_size)) 
     oi = Image.new("RGB",OUTPUT_SIZE)
 
-    # spots is a matrix holding the availability of each sector of the output image
+    # spots is a matrix holding the status of each sector of the output image
     spots =  [[True for c in range(sec_count[0])] for r in range(sec_count[1])]
 
     # draw each picture to the output image
     for p in pics:
         img = Image.open(p)
         i_size = img.size
-        is_w = int(math.ceil(i_size[0]/sec_size))       # spots needed for width
-        is_h = int(math.ceil(i_size[1]/sec_size))       # spots needed for height
+        is_w = int(math.ceil(i_size[0]/sec_size))    # spots needed for width
+        is_h = int(math.ceil(i_size[1]/sec_size))    # spots needed for height
 
         location = (-1,-1)  # (row, column) of the image being placed
-        # At each individual spot, check if there is not  enough space open to display
-        # the current image
+        # At each individual spot, check if there is not  enough space open to
+        # display the current image
         for r, row in enumerate(spots):
             display = False # are we displaying at the current spot?
             for c, val in enumerate(row):
@@ -41,7 +39,7 @@ def main(pics) :
                     break
 
                 clear = True
-                # is every square starting at spot[r][c] to sport[r+is_h][r+is_w]
+                # is every square starting at spot[r][c] to spot[r+is_h][r+is_w]
                 # open?
                 for h in range(is_h):
                     if not clear:
@@ -76,13 +74,8 @@ def main(pics) :
             # draw the image
             oi.paste(img, (location[1] * sec_size, location[0] * sec_size))
 
-        # display status of the grid
-
-    # determine where to place the picture on the image
-
-
-    oi.save(OUTPUT_PATH)
     # save the image
+    oi.save(OUTPUT_PATH)
 
 if __name__ == '__main__':
     # parse the arguments
@@ -102,6 +95,7 @@ if __name__ == '__main__':
     # picture arguments
     parser.add_argument("pic_path", nargs=argparse.REMAINDER)
     args = parser.parse_args()
+
     if(args.output):
         OUTPUT_PATH = args.output[0]
     if(args.size):
