@@ -31,11 +31,13 @@ Image.save)
 3. -v --verbose
     Makes the program output verbose. 
 
+4 --shuffle
+    Randomizes the order in which the placed in the resulting image.
+
 #Usage
 
-tile_pics.py path/to/image1 path/to/image2...
+tile\_pics.py path/to/image1 path/to/image2...
 
 #todo
-Argument parsing
 Create a largest first strategy.
 Create the smallest first strategy
