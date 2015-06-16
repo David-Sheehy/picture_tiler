@@ -2,10 +2,12 @@
 from PIL import Image
 import math
 import argparse
+import random
 
-# verbose flag
+# various flags
 VERBOSE = False
 
+SHUFFLE = False
 OUTPUT_PATH = "output.png"
 OUTPUT_SIZE = (1920,1080)             
 sec_size = 32                   # The created image will be divided into 32x32
@@ -18,6 +20,9 @@ def main(pics) :
 
     # spots is a matrix holding the status of each sector of the output image
     spots =  [[True for c in range(sec_count[0])] for r in range(sec_count[1])]
+
+    if(SHUFFLE):
+        random.shuffle(pics)
 
     # draw each picture to the output image
     for p in pics:
@@ -83,6 +88,11 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(
                             description="Create a collage from pictures. "
                         )
+    # Shuffle the picture files
+    parser.add_argument("--shuffle",
+                        help="Randomize the order of the pictures before\
+                        creating the collage."
+                       )
     # output file
     parser.add_argument("-o","--output",
                         nargs=1,
@@ -97,6 +107,8 @@ if __name__ == '__main__':
     parser.add_argument("pic_path", nargs=argparse.REMAINDER)
     args = parser.parse_args()
 
+    if(args.shuffle):
+        SHUFFLE = True
     if(args.output):
         OUTPUT_PATH = args.output[0]
     if(args.size):
