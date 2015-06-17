@@ -68,7 +68,7 @@ def main(pics) :
                 break
         #endfor
         if VERBOSE:
-            print("Pasting image at location {}".format(location))
+            print("Pasting image at location " + location)
 
         # update the spots grid. 
         if location[0] != -1 and location[1] != -1:
